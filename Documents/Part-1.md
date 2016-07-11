@@ -1,8 +1,8 @@
 # 基础
 
-目前有大量 App 都需要进行网络请求，这里讨论一下如何发起网络请求更简单，更方便。
+目前有大量 App 都需要进行网络请求，这里讨论一下如何优化网络请求。
 
-这里我们用 Github 作为服务器，然后用 Alamofire 作为网络请求框架。
+这里用 [Github](https://developer.github.com/v3/) 作为服务器，然后用 [Alamofire](https://github.com/Alamofire/Alamofire) 作为网络请求框架。
 
 对 Github 发起请求，然后取得 Repository (代码库)。
 
@@ -48,7 +48,7 @@ class RepositoryTableViewController: UITableViewController {
 }
 ```
 
-这里我们先假设服务器在本地，可以直接取得 Repository ： 
+这里先假设服务器在本地，可以直接取得 Repository ： 
 
 ```swift
 struct Github {
@@ -67,7 +67,9 @@ struct Github {
 
 **(user, name) -> Repository -> updateUI**
 
-在 RepositoryTableViewController 的 viewDidLoad() 方法里取得 Repository,
+在 RepositoryTableViewController 的 viewDidLoad() 方法里，
+
+通过 Github 用户名和 repo 名，取得 Repository,
 
 ```swift
 override func viewDidLoad() {
@@ -89,7 +91,6 @@ private var repository: Repository! {
 **(user, name) -> JSON -> Repository -> updateUI**
 
 
-
 我们对比一下本地取值和服务区取值：
 
 **(user, name) -> Repository -> updateUI**
@@ -102,23 +103,31 @@ JSON 是我们与服务器之间的桥梁.
 
 稍微抽象一点，可以发现，
 
-实际上从服务器取值与本地取值主要有两个区别：
+实际上从服务器取值比本地取值多了两个特征：
 
 1. 异步
 2. 可能失败
 
 本地取值立即就可以返回，而服务器则需要花更多时间。
 
-另外如果没有网络那么服务器就不能返回结果,
+另外如果无法连接互联网，那么服务器就不能返回结果,
 
-另外还有许多其他因素会造成取值失败。
+除此之外，还有许多其他因素会造成取值失败。
 
-要处理这两个区别其实并不难：
+不过要处理这两个特征其实并不难：
 
 ```swift
 struct Github {
-    static func getRepository(user
-        user: String, name: String,
+    static func getRepository(user user: String, name: String) -> Repository {
+        ...
+    }
+}
+```
+改为：
+
+```swift
+struct Github {
+    static func getRepository(user user: String, name: String,
         didGet: (Repository) -> Void,
         didFail: (ErrorType) -> Void) {
         ...
@@ -126,9 +135,9 @@ struct Github {
 }
 ```
 
-将同步的结果返回改为异步，只需要声明一个  didGet: (Repository) -> Void 的 closure.
+异步，只需要声明一个  didGet: (Repository) -> Void 的 closure.
 
-而处理失败事件也只需要声明一个  didFail: (ErrorType) -> Void) 的 closure.
+失败，只需要声明一个  didFail: (ErrorType) -> Void 的 closure.
 
 
 那么该方法的详细执行内容是什么：
@@ -201,7 +210,7 @@ extension Repository {
 
 此时的代码可以在，分支 Part-1-End 找到。
 
-下一节，将介绍如何使用 RxSwift 来实现网络请求，
+Part 2，将介绍如何使用 RxSwift 来实现网络请求，
 
 将响应式编程融入到网络请求中！
 
