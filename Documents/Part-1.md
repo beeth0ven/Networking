@@ -208,7 +208,7 @@ extension Repository {
 
 这就是网络请求最基本的形态，其实他和本地取值区别并不大。
 
-此时的代码可以在，分支 Part-1-End 找到。
+此时的代码可以在，分支 [Part-1-End](https://github.com/beeth0ven/Networking/tree/Part-1-End) 找到。
 
 Part 2，将介绍如何使用 RxSwift 来实现网络请求，
 
