@@ -8,31 +8,34 @@
 
 import Foundation
 import Alamofire
+import RxSwift
+import RxCocoa
 
 struct Github {
-    static func getRepository(user
-        user: String, name: String,
-        didGet: (Repository) -> Void,
-        didFail: (ErrorType) -> Void) {
-        
-        let baseURLString = "https://api.github.com"
-        let path = "/repos/\(user)/\(name)"
-        let url = NSURL(string: baseURLString + path)!
-        
-        Alamofire
-            .request(.GET, url)
-            .responseJSON { response in
-                switch response.result {
-                case .Success(let json):
-                    let repository = Repository(json: json)
-                    dispatch_async(dispatch_get_main_queue(), {
-                        didGet(repository)
-                    })
-                case .Failure(let error):
-                    dispatch_async(dispatch_get_main_queue(), {
-                        didFail(error)
-                    })
-                }
+    
+    static func getRepository(user user: String, name: String) -> Observable<Repository> {
+        return Observable.create { observer -> Disposable in
+            
+            let baseURLString = "https://api.github.com"
+            let path = "/repos/\(user)/\(name)"
+            let url = NSURL(string: baseURLString + path)!
+            
+            let request =  Alamofire
+                .request(.GET, url)
+                .responseJSON { response in
+                    switch response.result {
+                    case .Success(let json):
+                        let repository = Repository(json: json)
+                        observer.onNext(repository)
+                        observer.onCompleted()
+                    case .Failure(let error):
+                        observer.onError(error)
+                    }
+            }
+            
+            return AnonymousDisposable {
+                request.cancel()
+            }
         }
     }
 }

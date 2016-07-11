@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class RepositoryTableViewController: UITableViewController {
     
@@ -21,13 +23,17 @@ class RepositoryTableViewController: UITableViewController {
     @IBOutlet private weak var descriptionLabel: UILabel!
     @IBOutlet private weak var urlLabel: UILabel!
     
+    let disposeBag = DisposeBag()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        Github.getRepository(user: user, name: name,
-                didGet: { repo in self.repository = repo },
-                didFail: { error in print(error) }
-        )
+        Github.getRepository(user: user, name: name)
+            .observeOn(MainScheduler.instance)
+            .doOnNext { [unowned self] repo in self.repository = repo }
+            .subscribeError { error in print(error) }
+            .addDisposableTo(disposeBag)
+
     }
     
     func updateUI() {
