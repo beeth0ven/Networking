@@ -2,7 +2,7 @@
 
 目前有大量 App 都需要进行网络请求，这里讨论一下如何优化网络请求。
 
-这里用 [Github](https://developer.github.com/v3/) 作为服务器，然后用 [Alamofire](https://github.com/Alamofire/Alamofire) 作为网络请求框架。
+我们用 [Github](https://developer.github.com/v3/) 作为服务器，然后用 [Alamofire](https://github.com/Alamofire/Alamofire) 作为网络请求框架。
 
 对 Github 发起请求，然后取得 Repository (代码库)。
 
