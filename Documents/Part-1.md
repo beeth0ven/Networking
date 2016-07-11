@@ -194,14 +194,13 @@ extension Repository {
         didFail: { error in print(error) }
     ...
 ```
+## 结尾
 
 这就是网络请求最基本的形态，其实他和本地取值区别并不大。
 
-非常简单.
-
 此时的代码可以在，分支 Part-1-End 找到。
 
-下一节将介绍如何使用 RxSwift 来实现网络请求，
+下一节，将介绍如何使用 RxSwift 来实现网络请求，
 
 将响应式编程融入到网络请求中！
 
