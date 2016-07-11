@@ -93,6 +93,7 @@ private var repository: Repository! {
 我们对比一下本地取值和服务区取值：
 
 **(user, name) -> Repository -> updateUI**
+
 **(user, name) -> JSON -> Repository -> updateUI**
 
 可以看出来中间多了一步,就是 JSON,
