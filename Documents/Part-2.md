@@ -330,7 +330,7 @@ addDisposableTo(disposeBag) 就是 addObserver，
     }
 ```
 
-request.cancel() 就是在 removeObserver 时运的代码，
+中 request.cancel() 就是在 removeObserver 时运行的代码，
 
 我们走出代码，想象一下这样的情景，
 
