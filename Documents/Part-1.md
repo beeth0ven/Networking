@@ -210,7 +210,7 @@ extension Repository {
 
 此时的代码可以在，分支 [Part-1-End](https://github.com/beeth0ven/Networking/tree/Part-1-End) 找到。
 
-Part 2，将介绍如何使用 RxSwift 来实现网络请求，
+[Part 2](https://github.com/beeth0ven/Networking/blob/master/Documents/Part-2.md)，将介绍如何使用 RxSwift 来实现网络请求，
 
 将响应式编程融入到网络请求中！
 

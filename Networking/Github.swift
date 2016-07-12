@@ -14,6 +14,7 @@ import RxCocoa
 struct Github {
     
     static func getRepository(user user: String, name: String) -> Observable<Repository> {
+        
         return Observable.create { observer -> Disposable in
             
             let baseURLString = "https://api.github.com"
@@ -27,6 +28,35 @@ struct Github {
                     case .Success(let json):
                         let repository = Repository(json: json)
                         observer.onNext(repository)
+                        observer.onCompleted()
+                    case .Failure(let error):
+                        observer.onError(error)
+                    }
+            }
+            
+            return AnonymousDisposable {
+                request.cancel()
+            }
+        }
+    }
+    
+    static func searchRepositories(text text: String) -> Observable<[Repository]> {
+        
+        return Observable.create { observer -> Disposable in
+            
+            let baseURLString = "https://api.github.com"
+            let path = "/search/repositories"
+            let url = NSURL(string: baseURLString + path)!
+            let parameters = ["q": text]
+            
+            let request =  Alamofire
+                .request(.GET, url, parameters: parameters, encoding: .URL)
+                .responseJSON { response in
+                    switch response.result {
+                    case .Success(let json):
+                        let jsons = (json as? NSDictionary)?.valueForKey("items") as? [AnyObject]
+                        let repositories = jsons?.map(Repository.init) ?? []
+                        observer.onNext(repositories)
                         observer.onCompleted()
                     case .Failure(let error):
                         observer.onError(error)
