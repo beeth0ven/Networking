@@ -12,10 +12,6 @@ import RxCocoa
 
 class SearchRepositoriesTableViewController: UITableViewController {
     
-    private var repositories = [Repository]() {
-        didSet { tableView.reloadData() }
-    }
-    
     @IBOutlet private weak var searchBar: UISearchBar!
     
     let disposeBag = DisposeBag()
@@ -23,26 +19,22 @@ class SearchRepositoriesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.dataSource = nil
+        tableView.delegate = nil
+        
         searchBar.rx_text
             .filter { text in !text.isEmpty }
             .throttle(0.5, scheduler: MainScheduler.instance)
             .distinctUntilChanged()
-            .flatMapLatest { text in Github.searchRepositories(text: text) }
-            .observeOn(MainScheduler.instance)
-            .doOnNext { [unowned self] repositories in self.repositories = repositories }
-            .subscribeError { error in print(error) }
+            .map { text in Github.searchRepositories(text: text) }
+            .flatMapLatest { searchRepositories in
+                searchRepositories.rx_model(Github.SearchRepositoriesResult.self)
+            }
+            .doOnError { error in print(error) }
+            .bindTo(tableView.rx_itemsWithCellIdentifier("UITableViewCell")) { row, repository, cell in
+                cell.textLabel?.text = repository.name
+                cell.detailTextLabel?.text = repository.description
+            }
             .addDisposableTo(disposeBag)
-    }
-    
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return repositories.count
-    }
-    
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("UITableViewCell")!
-        let repository = repositories[indexPath.row]
-        cell.textLabel?.text        = repository.name
-        cell.detailTextLabel?.text  = repository.description
-        return cell
     }
 }

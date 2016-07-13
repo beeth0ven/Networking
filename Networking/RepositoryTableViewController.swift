@@ -14,10 +14,6 @@ class RepositoryTableViewController: UITableViewController {
     
     var user = "beeth0ven", name = "Timer"
     
-    private var repository: Repository! {
-        didSet { updateUI() }
-    }
-    
     @IBOutlet private weak var nameLabel: UILabel!
     @IBOutlet private weak var languageLabel: UILabel!
     @IBOutlet private weak var descriptionLabel: UILabel!
@@ -29,17 +25,20 @@ class RepositoryTableViewController: UITableViewController {
         super.viewDidLoad()
         
         Github.getRepository(user: user, name: name)
-            .observeOn(MainScheduler.instance)
-            .doOnNext { [unowned self] repo in self.repository = repo }
-            .subscribeError { error in print(error) }
+            .rx_model(Github.GetRepositoryResult.self)
+            .doOnError { error in print(error) }
+            .bindTo(rx_userInterface)
             .addDisposableTo(disposeBag)
 
     }
     
-    func updateUI() {
-        nameLabel.text        = repository.name
-        languageLabel.text    = repository.language
-        descriptionLabel.text = repository.description
-        urlLabel.text         = repository.url
+    var rx_userInterface: AnyObserver<Repository> {
+        return UIBindingObserver(UIElement: self) {
+            repositoryTableViewController, repository in
+            repositoryTableViewController.nameLabel.text        = repository.name
+            repositoryTableViewController.languageLabel.text    = repository.language
+            repositoryTableViewController.descriptionLabel.text = repository.description
+            repositoryTableViewController.urlLabel.text         = repository.url
+        }.asObserver()
     }
 }

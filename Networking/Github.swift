@@ -11,52 +11,27 @@ import Alamofire
 import RxSwift
 import RxCocoa
 
-struct Github {
+enum Github {
+    case getRepository(user: String, name: String)
+    case searchRepositories(text: String)
+}
+
+extension Github {
     
-    static func getRepository(user user: String, name: String) -> Observable<Repository> {
+    static let baseURLString = "https://api.github.com"
+    
+    var rx_json: Observable<AnyObject> {
         
         return Observable.create { observer -> Disposable in
             
-            let baseURLString = "https://api.github.com"
-            let path = "/repos/\(user)/\(name)"
-            let url = NSURL(string: baseURLString + path)!
+            let url = NSURL(string: Github.baseURLString + self.path)!
             
             let request =  Alamofire
-                .request(.GET, url)
+                .request(.GET, url, parameters: self.parameters, encoding: .URL)
                 .responseJSON { response in
                     switch response.result {
                     case .Success(let json):
-                        let repository = Repository(json: json)
-                        observer.onNext(repository)
-                        observer.onCompleted()
-                    case .Failure(let error):
-                        observer.onError(error)
-                    }
-            }
-            
-            return AnonymousDisposable {
-                request.cancel()
-            }
-        }
-    }
-    
-    static func searchRepositories(text text: String) -> Observable<[Repository]> {
-        
-        return Observable.create { observer -> Disposable in
-            
-            let baseURLString = "https://api.github.com"
-            let path = "/search/repositories"
-            let url = NSURL(string: baseURLString + path)!
-            let parameters = ["q": text]
-            
-            let request =  Alamofire
-                .request(.GET, url, parameters: parameters, encoding: .URL)
-                .responseJSON { response in
-                    switch response.result {
-                    case .Success(let json):
-                        let jsons = (json as? NSDictionary)?.valueForKey("items") as? [AnyObject]
-                        let repositories = jsons?.map(Repository.init) ?? []
-                        observer.onNext(repositories)
+                        observer.onNext(json)
                         observer.onCompleted()
                     case .Failure(let error):
                         observer.onError(error)
@@ -69,3 +44,54 @@ struct Github {
         }
     }
 }
+
+extension Github {
+
+    var path: String {
+        switch self {
+        case let getRepository(user, name):
+            return "/repos/\(user)/\(name)"
+        case searchRepositories:
+            return "/search/repositories"
+        }
+    }
+    
+    var parameters: [String: AnyObject]? {
+        switch self {
+        case getRepository:
+            return nil
+        case let searchRepositories(text):
+            return ["q": text]
+        }
+    }
+}
+
+extension Github {
+    
+    typealias GetRepositoryResult = Repository
+    typealias SearchRepositoriesResult = [Repository]
+    
+    func parse(json: AnyObject) -> Any {
+        switch self {
+        case getRepository:      return parseGetRepositoryResult(json: json)
+        case searchRepositories: return parseSearchRepositoriesResult(json: json)
+        }
+    }
+    
+    private func parseGetRepositoryResult(json json: AnyObject) -> GetRepositoryResult {
+        return Repository(json: json)
+    }
+    
+    private func parseSearchRepositoriesResult(json json: AnyObject) -> SearchRepositoriesResult {
+        let jsons = (json as? NSDictionary)?.valueForKey("items") as? [AnyObject]
+        return jsons?.map(Repository.init) ?? []
+    }
+    
+    func rx_model<T>(type: T.Type) -> Observable<T> {
+        return rx_json
+            .map { json in self.parse(json) }
+            .map { result in result as! T }
+            .observeOn(MainScheduler.instance)
+    }
+}
+
