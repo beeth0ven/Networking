@@ -333,7 +333,9 @@ extension RepositoryTableViewController: RxGithubViewControllerType {
 
 这样一来我们写代码就成了 **你问我答**.
 
-根据不同的环境，提供不同的答案， 
+由协议提出问题.
+
+我们根据不同的环境，提供不同的答案， 
 
 至于流程是怎么运作的，我们不需要关心,
 
@@ -423,7 +425,7 @@ extension RepositoryTableViewController: RxGithubViewControllerType {
 
 如何使用面向协议的理念来处理这些问题.
 
-你或许会发现一些意外的收获.
+你或许会获得一些意外的收获!
 
 此时的代码可以在，分支 [Part-4-End](https://github.com/beeth0ven/Networking/tree/Part-4-End) 找到。
 
