@@ -14,6 +14,7 @@ import RxCocoa
 enum Github {
     case getRepository(user: String, name: String)
     case searchRepositories(text: String)
+    case getOrganization(name: String)
 }
 
 extension Github {
@@ -53,6 +54,8 @@ extension Github {
             return "/repos/\(user)/\(name)"
         case searchRepositories:
             return "/search/repositories"
+        case let getOrganization(name):
+            return "/orgs/\(name)"
         }
     }
     
@@ -62,6 +65,8 @@ extension Github {
             return nil
         case let searchRepositories(text):
             return ["q": text]
+        case .getOrganization:
+            return nil
         }
     }
 }
@@ -70,11 +75,13 @@ extension Github {
     
     typealias GetRepositoryResult = Repository
     typealias SearchRepositoriesResult = [Repository]
-    
+    typealias GetOrganizationResult = Organization
+
     func parse(json: AnyObject) -> Any {
         switch self {
         case getRepository:      return parseGetRepositoryResult(json: json)
         case searchRepositories: return parseSearchRepositoriesResult(json: json)
+        case getOrganization:    return parseGetOrganizationResult(json: json)
         }
     }
     
@@ -85,6 +92,10 @@ extension Github {
     private func parseSearchRepositoriesResult(json json: AnyObject) -> SearchRepositoriesResult {
         let jsons = (json as? NSDictionary)?.valueForKey("items") as? [AnyObject]
         return jsons?.map(Repository.init) ?? []
+    }
+    
+    private func parseGetOrganizationResult(json json: AnyObject) -> GetOrganizationResult {
+        return Organization(json: json)
     }
     
     func rx_model<T>(type: T.Type) -> Observable<T> {

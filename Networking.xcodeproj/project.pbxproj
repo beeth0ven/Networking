@@ -15,6 +15,9 @@
 		4502E2A21D33988E002DABD0 /* Github.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4502E29F1D33988E002DABD0 /* Github.swift */; };
 		4502E2A31D33988E002DABD0 /* RepositoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4502E2A01D33988E002DABD0 /* RepositoryTableViewController.swift */; };
 		4502E2A51D3484AA002DABD0 /* SearchRepositoriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4502E2A41D3484AA002DABD0 /* SearchRepositoriesTableViewController.swift */; };
+		453FC7801D371EEF001CA0F9 /* Organization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453FC77F1D371EEF001CA0F9 /* Organization.swift */; };
+		453FC7821D3721EC001CA0F9 /* OrganizationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453FC7811D3721EC001CA0F9 /* OrganizationTableViewController.swift */; };
+		453FC7841D373291001CA0F9 /* RxGithubViewControllerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453FC7831D373291001CA0F9 /* RxGithubViewControllerType.swift */; };
 		4F563C13D895473001FD20E7 /* Pods_Networking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3D1E3898F22C77854EAED9B /* Pods_Networking.framework */; };
 /* End PBXBuildFile section */
 
@@ -30,6 +33,9 @@
 		4502E29F1D33988E002DABD0 /* Github.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Github.swift; sourceTree = "<group>"; };
 		4502E2A01D33988E002DABD0 /* RepositoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryTableViewController.swift; sourceTree = "<group>"; };
 		4502E2A41D3484AA002DABD0 /* SearchRepositoriesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRepositoriesTableViewController.swift; sourceTree = "<group>"; };
+		453FC77F1D371EEF001CA0F9 /* Organization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Organization.swift; sourceTree = "<group>"; };
+		453FC7811D3721EC001CA0F9 /* OrganizationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizationTableViewController.swift; sourceTree = "<group>"; };
+		453FC7831D373291001CA0F9 /* RxGithubViewControllerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxGithubViewControllerType.swift; sourceTree = "<group>"; };
 		E3D1E3898F22C77854EAED9B /* Pods_Networking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Networking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F709550E87F05D51FE719001 /* Pods-Networking.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Networking.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Networking/Pods-Networking.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -84,11 +90,11 @@
 		4502E2811D336EB0002DABD0 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				453FC7861D3732BD001CA0F9 /* Model */,
 				4502E29F1D33988E002DABD0 /* Github.swift */,
-				4502E29E1D33988E002DABD0 /* Repository.swift */,
 				4502E2861D336EB0002DABD0 /* Main.storyboard */,
-				4502E2A01D33988E002DABD0 /* RepositoryTableViewController.swift */,
-				4502E2A41D3484AA002DABD0 /* SearchRepositoriesTableViewController.swift */,
+				453FC7871D3732CF001CA0F9 /* Controller */,
+				453FC7851D3732AA001CA0F9 /* Protocol */,
 				4502E2941D336FCD002DABD0 /* Supporting Files */,
 			);
 			path = Networking;
@@ -103,6 +109,33 @@
 				4502E28E1D336EB0002DABD0 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		453FC7851D3732AA001CA0F9 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				453FC7831D373291001CA0F9 /* RxGithubViewControllerType.swift */,
+			);
+			name = Protocol;
+			sourceTree = "<group>";
+		};
+		453FC7861D3732BD001CA0F9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4502E29E1D33988E002DABD0 /* Repository.swift */,
+				453FC77F1D371EEF001CA0F9 /* Organization.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		453FC7871D3732CF001CA0F9 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				4502E2A01D33988E002DABD0 /* RepositoryTableViewController.swift */,
+				4502E2A41D3484AA002DABD0 /* SearchRepositoriesTableViewController.swift */,
+				453FC7811D3721EC001CA0F9 /* OrganizationTableViewController.swift */,
+			);
+			name = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -229,8 +262,11 @@
 			files = (
 				4502E2A31D33988E002DABD0 /* RepositoryTableViewController.swift in Sources */,
 				4502E2831D336EB0002DABD0 /* AppDelegate.swift in Sources */,
+				453FC7841D373291001CA0F9 /* RxGithubViewControllerType.swift in Sources */,
 				4502E2A51D3484AA002DABD0 /* SearchRepositoriesTableViewController.swift in Sources */,
 				4502E2A21D33988E002DABD0 /* Github.swift in Sources */,
+				453FC7821D3721EC001CA0F9 /* OrganizationTableViewController.swift in Sources */,
+				453FC7801D371EEF001CA0F9 /* Organization.swift in Sources */,
 				4502E2A11D33988E002DABD0 /* Repository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

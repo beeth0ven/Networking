@@ -19,26 +19,26 @@ class RepositoryTableViewController: UITableViewController {
     @IBOutlet private weak var descriptionLabel: UILabel!
     @IBOutlet private weak var urlLabel: UILabel!
     
-    let disposeBag = DisposeBag()
+    var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        Github.getRepository(user: user, name: name)
-            .rx_model(Github.GetRepositoryResult.self)
-            .doOnError { error in print(error) }
-            .bindTo(rx_userInterface)
-            .addDisposableTo(disposeBag)
+        setupRx()
+    }
+}
 
+extension RepositoryTableViewController: RxGithubViewControllerType {
+    
+    typealias Model = Repository
+    
+    var githubRequest: Github {
+        return Github.getRepository(user: user, name: name)
     }
     
-    var rx_userInterface: AnyObserver<Repository> {
-        return UIBindingObserver(UIElement: self) {
-            repositoryTableViewController, repository in
-            repositoryTableViewController.nameLabel.text        = repository.name
-            repositoryTableViewController.languageLabel.text    = repository.language
-            repositoryTableViewController.descriptionLabel.text = repository.description
-            repositoryTableViewController.urlLabel.text         = repository.url
-        }.asObserver()
+    func updateUI(with model: Model) {
+        nameLabel.text        = model.name
+        languageLabel.text    = model.language
+        descriptionLabel.text = model.description
+        urlLabel.text         = model.url
     }
 }
