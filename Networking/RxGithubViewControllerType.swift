@@ -36,3 +36,4 @@ extension RxGithubViewControllerType where Self: UIViewController {
             .addDisposableTo(disposeBag)
     }
 }
+

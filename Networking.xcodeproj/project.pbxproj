@@ -15,6 +15,8 @@
 		4502E2A21D33988E002DABD0 /* Github.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4502E29F1D33988E002DABD0 /* Github.swift */; };
 		4502E2A31D33988E002DABD0 /* RepositoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4502E2A01D33988E002DABD0 /* RepositoryTableViewController.swift */; };
 		4502E2A51D3484AA002DABD0 /* SearchRepositoriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4502E2A41D3484AA002DABD0 /* SearchRepositoriesTableViewController.swift */; };
+		453D7EF91D5C0560009C1B0D /* HttpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453D7EF81D5C0560009C1B0D /* HttpRequest.swift */; };
+		453D7EFB1D5C2C7C009C1B0D /* RxModelViewControllerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453D7EFA1D5C2C7C009C1B0D /* RxModelViewControllerType.swift */; };
 		453FC7801D371EEF001CA0F9 /* Organization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453FC77F1D371EEF001CA0F9 /* Organization.swift */; };
 		453FC7821D3721EC001CA0F9 /* OrganizationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453FC7811D3721EC001CA0F9 /* OrganizationTableViewController.swift */; };
 		453FC7841D373291001CA0F9 /* RxGithubViewControllerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453FC7831D373291001CA0F9 /* RxGithubViewControllerType.swift */; };
@@ -33,6 +35,8 @@
 		4502E29F1D33988E002DABD0 /* Github.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Github.swift; sourceTree = "<group>"; };
 		4502E2A01D33988E002DABD0 /* RepositoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryTableViewController.swift; sourceTree = "<group>"; };
 		4502E2A41D3484AA002DABD0 /* SearchRepositoriesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRepositoriesTableViewController.swift; sourceTree = "<group>"; };
+		453D7EF81D5C0560009C1B0D /* HttpRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpRequest.swift; sourceTree = "<group>"; };
+		453D7EFA1D5C2C7C009C1B0D /* RxModelViewControllerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxModelViewControllerType.swift; sourceTree = "<group>"; };
 		453FC77F1D371EEF001CA0F9 /* Organization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Organization.swift; sourceTree = "<group>"; };
 		453FC7811D3721EC001CA0F9 /* OrganizationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizationTableViewController.swift; sourceTree = "<group>"; };
 		453FC7831D373291001CA0F9 /* RxGithubViewControllerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxGithubViewControllerType.swift; sourceTree = "<group>"; };
@@ -91,6 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				453FC7861D3732BD001CA0F9 /* Model */,
+				453D7EF81D5C0560009C1B0D /* HttpRequest.swift */,
 				4502E29F1D33988E002DABD0 /* Github.swift */,
 				4502E2861D336EB0002DABD0 /* Main.storyboard */,
 				453FC7871D3732CF001CA0F9 /* Controller */,
@@ -115,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				453FC7831D373291001CA0F9 /* RxGithubViewControllerType.swift */,
+				453D7EFA1D5C2C7C009C1B0D /* RxModelViewControllerType.swift */,
 			);
 			name = Protocol;
 			sourceTree = "<group>";
@@ -145,12 +151,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4502E2911D336EB0002DABD0 /* Build configuration list for PBXNativeTarget "Networking" */;
 			buildPhases = (
-				9717CC2F3DED58B80216FCEC /* Check Pods Manifest.lock */,
+				9717CC2F3DED58B80216FCEC /* [CP] Check Pods Manifest.lock */,
 				4502E27B1D336EB0002DABD0 /* Sources */,
 				4502E27C1D336EB0002DABD0 /* Frameworks */,
 				4502E27D1D336EB0002DABD0 /* Resources */,
-				27826956A00C607B9CF7D76E /* Embed Pods Frameworks */,
-				4683F80465DBFB4F1886E253 /* Copy Pods Resources */,
+				27826956A00C607B9CF7D76E /* [CP] Embed Pods Frameworks */,
+				4683F80465DBFB4F1886E253 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -208,14 +214,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		27826956A00C607B9CF7D76E /* Embed Pods Frameworks */ = {
+		27826956A00C607B9CF7D76E /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -223,14 +229,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Networking/Pods-Networking-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		4683F80465DBFB4F1886E253 /* Copy Pods Resources */ = {
+		4683F80465DBFB4F1886E253 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -238,14 +244,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Networking/Pods-Networking-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9717CC2F3DED58B80216FCEC /* Check Pods Manifest.lock */ = {
+		9717CC2F3DED58B80216FCEC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -264,9 +270,11 @@
 				4502E2831D336EB0002DABD0 /* AppDelegate.swift in Sources */,
 				453FC7841D373291001CA0F9 /* RxGithubViewControllerType.swift in Sources */,
 				4502E2A51D3484AA002DABD0 /* SearchRepositoriesTableViewController.swift in Sources */,
+				453D7EFB1D5C2C7C009C1B0D /* RxModelViewControllerType.swift in Sources */,
 				4502E2A21D33988E002DABD0 /* Github.swift in Sources */,
 				453FC7821D3721EC001CA0F9 /* OrganizationTableViewController.swift in Sources */,
 				453FC7801D371EEF001CA0F9 /* Organization.swift in Sources */,
+				453D7EF91D5C0560009C1B0D /* HttpRequest.swift in Sources */,
 				4502E2A11D33988E002DABD0 /* Repository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
