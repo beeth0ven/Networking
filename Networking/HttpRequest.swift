@@ -18,13 +18,11 @@ protocol HttpRequestType {
 extension HttpRequestType {
     
     static func request<Input, Output>(
-        inputType inputType: Input.Type,
-        outputType: Output.Type,
-        method: Alamofire.Method,
+        method method: Alamofire.Method,
         toPath: (Input) -> String,
         toParameters: ((Input) -> [String: AnyObject]?)? = nil,
         parse: (AnyObject) -> Output
-        ) -> Input -> Observable<Output> {
+        ) -> (Input -> Observable<Output>) {
         
         return { input in
             
@@ -48,6 +46,7 @@ extension HttpRequestType {
                 return AnonymousDisposable {
                     request.cancel()
                 }
+                
             }.observeOn(MainScheduler.instance)
         }
     }
@@ -55,36 +54,28 @@ extension HttpRequestType {
 
 struct Git: HttpRequestType {
     
-    static var baseURLString = "https://api.github.com"
+    static var baseURLString: String { return "https://api.github.com" }
     
-    static let getRepository = Git.request(
-        inputType: (user: String, name: String).self,
-        outputType: Repository.self,
+    static let getRepository: (user: String, name: String) -> Observable<Repository> = Git.request(
         method: .GET,
-        toPath: { (user: String, name: String) in "/repos/\(user)/\(name)" },
+        toPath: { user, name in "/repos/\(user)/\(name)" },
         parse: Repository.init
     )
     
-    static let searchRepositories = Git.request(
-        inputType: String.self,
-        outputType: [Repository].self,
+    static let searchRepositories: (text: String) -> Observable<[Repository]> = Git.request(
         method: .GET,
         toPath: { _ in "/search/repositories" },
         toParameters: { text in ["q": text] },
         parse: { json in (json as? [AnyObject])?.map(Repository.init) ?? [] }
     )
     
-    static let getOrganization = Git.request(
-        inputType: String.self,
-        outputType: Organization.self,
+    static let getOrganization: (name: String) -> Observable<Organization> = Git.request(
         method: .GET,
         toPath: { name in "/orgs/\(name)" },
         parse: Organization.init
     )
 
-    static let newRepository = Git.request(
-        inputType: (user: String, name: String).self,
-        outputType: Void.self,
+    static let newRepository: (user: String, name: String) -> Observable<Void> = Git.request(
         method: .POST,
         toPath: { _ in "/repos/new" },
         parse: { _ in }
@@ -92,8 +83,8 @@ struct Git: HttpRequestType {
 }
 
 func gitTest() {
-    let getRepository = Git.getRepository((user: "", name: ""))
-    let searchRepositories = Git.searchRepositories("")
-    let getOrganization = Git.getOrganization("")
-    let newRepository = Git.newRepository((user: "", name: ""))
+    let getRepository = Git.getRepository(user: "", name: "")
+    let searchRepositories = Git.searchRepositories(text: "")
+    let getOrganization = Git.getOrganization(name: "")
+    let newRepository = Git.newRepository(user: "", name: "")
 }
