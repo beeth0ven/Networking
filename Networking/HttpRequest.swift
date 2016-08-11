@@ -17,8 +17,8 @@ protocol HttpRequestType {
 
 extension HttpRequestType {
     
-    static func request<Input, Output>(
-        method method: Alamofire.Method,
+    static func createRequest<Input, Output>(method
+        method: Alamofire.Method,
         toPath: (Input) -> String,
         toParameters: ((Input) -> [String: AnyObject]?)? = nil,
         parse: (AnyObject) -> Output
@@ -50,35 +50,52 @@ extension HttpRequestType {
             }.observeOn(MainScheduler.instance)
         }
     }
+    
+    static func createRequest<Input>(method
+        method: Alamofire.Method,
+        toPath: (Input) -> String,
+        toParameters: ((Input) -> [String: AnyObject]?)? = nil
+        )  -> (Input -> Observable<Void>)  {
+        
+        return createRequest(
+            method: method,
+            toPath: toPath,
+            toParameters: toParameters,
+            parse: { _ in }
+        )
+    }
 }
 
 struct Git: HttpRequestType {
     
     static var baseURLString: String { return "https://api.github.com" }
     
-    static let getRepository: (user: String, name: String) -> Observable<Repository> = Git.request(
+    static let getRepository: (user: String, name: String) -> Observable<Repository> = Git.createRequest(
         method: .GET,
         toPath: { user, name in "/repos/\(user)/\(name)" },
         parse: Repository.init
     )
     
-    static let searchRepositories: (text: String) -> Observable<[Repository]> = Git.request(
+    static let searchRepositories: (text: String) -> Observable<[Repository]> = Git.createRequest(
         method: .GET,
         toPath: { _ in "/search/repositories" },
         toParameters: { text in ["q": text] },
-        parse: { json in (json as? [AnyObject])?.map(Repository.init) ?? [] }
+        parse: { json in
+            let jsons = (json as? NSDictionary)?.valueForKey("items") as? [AnyObject]
+            return jsons?.map(Repository.init) ?? []
+        }
     )
     
-    static let getOrganization: (name: String) -> Observable<Organization> = Git.request(
+    static let getOrganization: (name: String) -> Observable<Organization> = Git.createRequest(
         method: .GET,
         toPath: { name in "/orgs/\(name)" },
         parse: Organization.init
     )
 
-    static let newRepository: (user: String, name: String) -> Observable<Void> = Git.request(
+    static let newRepository: (user: String, name: String) -> Observable<Void> = Git.createRequest(
         method: .POST,
         toPath: { _ in "/repos/new" },
-        parse: { _ in }
+        toParameters: { user, name in ["user": user, "name": name] }
     )
 }
 
