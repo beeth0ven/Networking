@@ -19,7 +19,6 @@
 		453D7EFB1D5C2C7C009C1B0D /* RxModelViewControllerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453D7EFA1D5C2C7C009C1B0D /* RxModelViewControllerType.swift */; };
 		453FC7801D371EEF001CA0F9 /* Organization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453FC77F1D371EEF001CA0F9 /* Organization.swift */; };
 		453FC7821D3721EC001CA0F9 /* OrganizationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453FC7811D3721EC001CA0F9 /* OrganizationTableViewController.swift */; };
-		453FC7841D373291001CA0F9 /* RxGithubViewControllerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453FC7831D373291001CA0F9 /* RxGithubViewControllerType.swift */; };
 		4F563C13D895473001FD20E7 /* Pods_Networking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3D1E3898F22C77854EAED9B /* Pods_Networking.framework */; };
 /* End PBXBuildFile section */
 
@@ -39,7 +38,6 @@
 		453D7EFA1D5C2C7C009C1B0D /* RxModelViewControllerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxModelViewControllerType.swift; sourceTree = "<group>"; };
 		453FC77F1D371EEF001CA0F9 /* Organization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Organization.swift; sourceTree = "<group>"; };
 		453FC7811D3721EC001CA0F9 /* OrganizationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrganizationTableViewController.swift; sourceTree = "<group>"; };
-		453FC7831D373291001CA0F9 /* RxGithubViewControllerType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxGithubViewControllerType.swift; sourceTree = "<group>"; };
 		E3D1E3898F22C77854EAED9B /* Pods_Networking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Networking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F709550E87F05D51FE719001 /* Pods-Networking.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Networking.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Networking/Pods-Networking.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -119,7 +117,6 @@
 		453FC7851D3732AA001CA0F9 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				453FC7831D373291001CA0F9 /* RxGithubViewControllerType.swift */,
 				453D7EFA1D5C2C7C009C1B0D /* RxModelViewControllerType.swift */,
 			);
 			name = Protocol;
@@ -268,7 +265,6 @@
 			files = (
 				4502E2A31D33988E002DABD0 /* RepositoryTableViewController.swift in Sources */,
 				4502E2831D336EB0002DABD0 /* AppDelegate.swift in Sources */,
-				453FC7841D373291001CA0F9 /* RxGithubViewControllerType.swift in Sources */,
 				4502E2A51D3484AA002DABD0 /* SearchRepositoriesTableViewController.swift in Sources */,
 				453D7EFB1D5C2C7C009C1B0D /* RxModelViewControllerType.swift in Sources */,
 				4502E2A21D33988E002DABD0 /* Github.swift in Sources */,

@@ -26,10 +26,7 @@ class SearchRepositoriesTableViewController: UITableViewController {
             .filter { text in !text.isEmpty }
             .throttle(0.5, scheduler: MainScheduler.instance)
             .distinctUntilChanged()
-            .map { text in Github.searchRepositories(text: text) }
-            .flatMapLatest { searchRepositories in
-                searchRepositories.rx_model(Github.SearchRepositoriesResult.self)
-            }
+            .flatMapLatest { text in Github.searchRepositories(text: text) }
             .doOnError { error in print(error) }
             .bindTo(tableView.rx_itemsWithCellIdentifier("UITableViewCell")) { row, repository, cell in
                 cell.textLabel?.text = repository.name

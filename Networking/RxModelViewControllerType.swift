@@ -60,7 +60,7 @@ extension RepositoryViewController: RxModelViewControllerType {
     typealias Model = Repository
     
     var rx_model: Observable<Model> {
-        return Git.getRepository(user: user, name: name)
+        return Github.getRepository(user: user, name: name)
     }
     
     func updateUI(with model: Model) {

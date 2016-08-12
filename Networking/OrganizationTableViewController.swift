@@ -27,11 +27,11 @@ class OrganizationTableViewController: UITableViewController {
     }
 }
 
-extension OrganizationTableViewController: RxGithubViewControllerType {
+extension OrganizationTableViewController: RxModelViewControllerType {
     
     typealias Model = Organization
     
-    var githubRequest: Github {
+    var rx_model: Observable<Model> {
         return Github.getOrganization(name: name)
     }
     

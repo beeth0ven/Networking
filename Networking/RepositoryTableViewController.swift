@@ -27,11 +27,11 @@ class RepositoryTableViewController: UITableViewController {
     }
 }
 
-extension RepositoryTableViewController: RxGithubViewControllerType {
+extension RepositoryTableViewController: RxModelViewControllerType {
     
     typealias Model = Repository
     
-    var githubRequest: Github {
+    var rx_model: Observable<Model> {
         return Github.getRepository(user: user, name: name)
     }
     
