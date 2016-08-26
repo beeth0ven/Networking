@@ -13,20 +13,24 @@ import RxCocoa
 class SearchRepositoriesTableViewController: UITableViewController {
     
     @IBOutlet private weak var searchBar: UISearchBar!
+    @IBOutlet weak var addBarButtonItem: UIBarButtonItem!
     
     let disposeBag = DisposeBag()
     
-    let rx_repositories = Scan(seed: [Repository]())
+    typealias RxRepositories = Scan<[Repository]>
+    let rx_repositories: RxRepositories = Scan(seed: [])
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        searchBar.becomeFirstResponder()
         
         tableView.dataSource = nil
         tableView.delegate = nil
         
         rx_repositories
-            .asObservable()
-            .bindTo(tableView.rx_itemsWithCellIdentifier("UITableViewCell")) { row, repository, cell in
+            .asDriver()
+            .drive(tableView.rx_itemsWithCellIdentifier("UITableViewCell")) { row, repository, cell in
                 cell.textLabel?.text = repository.name
                 cell.detailTextLabel?.text = repository.description
             }
@@ -38,45 +42,29 @@ class SearchRepositoriesTableViewController: UITableViewController {
             .distinctUntilChanged()
             .flatMapLatest { text in Github.searchRepositories(text: text) }
             .doOnError { error in print(error) }
-            .subscribeNext { [unowned self] (repositories) in
-                self.rx_repositories.updateElement.value = { items in
-                    items += repositories
+            .map { (repositories) -> RxRepositories.Updated in
+                return { items in items += repositories }
+            }
+            .bindTo(rx_repositories.updated)
+            .addDisposableTo(disposeBag)
+        
+        addBarButtonItem.rx_tap
+            .map { () -> RxRepositories.Updated in
+                return { repositories in
+                    let repository = Repository(name: "luojie", language: "luojie", description: "luojie", url: "luojie")
+                    repositories.insert(repository, atIndex: 0)
                 }
             }
+            .bindTo(rx_repositories.updated)
             .addDisposableTo(disposeBag)
+
         
         tableView.rx_itemDeleted
-            .subscribeNext { [unowned self] indexPath in
-                self.rx_repositories.updateElement.value = { items in
-                    items.removeAtIndex(indexPath.row)
-                }
+            .map { indexPath -> RxRepositories.Updated in
+                return { repositories in repositories.removeAtIndex(indexPath.row) }
             }
+            .bindTo(rx_repositories.updated)
             .addDisposableTo(disposeBag)
     }
     
-    @IBAction func doAdd(sender: UIBarButtonItem) {
-        rx_repositories.updateElement.value = { items in
-            let r = Repository(name: "luojie", language: "luojie", description: "luojie", url: "luojie")
-            items.insert(r, atIndex: 0)
-        }
-    }
-    
-}
-
-struct Scan<Element> {
-    
-    let updateElement: Variable<((inout Element) -> Void)> = Variable ({ _ in })
-    
-    var seed: Element
-    
-    func asObservable() -> Observable<Element> {
-        return updateElement
-            .asObservable()
-            .scan(seed) { (element, updateElement) -> Element in
-                var element = element
-                updateElement(&element);
-                return element
-        }
-        
-    }
 }
