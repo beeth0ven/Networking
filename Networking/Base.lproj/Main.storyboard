@@ -119,7 +119,13 @@
                             <outlet property="delegate" destination="Gqk-HW-xSp" id="XeY-hb-YY6"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Repository" id="3s9-hO-lZ1"/>
+                    <navigationItem key="navigationItem" title="Repository" id="3s9-hO-lZ1">
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="EFF-5p-Z64">
+                            <connections>
+                                <action selector="doEdit:" destination="Gqk-HW-xSp" id="hcV-SF-igy"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="descriptionLabel" destination="tU2-FB-mWb" id="gUd-ue-VYz"/>
                         <outlet property="languageLabel" destination="QBY-kv-UAc" id="5o6-DJ-TdL"/>

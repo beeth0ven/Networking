@@ -20,25 +20,49 @@ class RepositoryTableViewController: UITableViewController {
     @IBOutlet private weak var urlLabel: UILabel!
     
     var disposeBag = DisposeBag()
-    
+    let rx_repository = Github.getRepository(user: "beeth0ven", name: "Timer").asScan()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupRx()
-    }
-}
-
-extension RepositoryTableViewController: RxModelViewControllerType {
-    
-    typealias Model = Repository
-    
-    var rx_model: Observable<Model> {
-        return Github.getRepository(user: user, name: name)
+//        setupRx()
+        
+        
+        rx_repository.asObservable()
+            .doOnNext { print("4", $0) }
+            .doOnError { print($0) }
+            .subscribeNext { [unowned self] in self.updateUI(with: $0) }
+            .addDisposableTo(disposeBag)
     }
     
-    func updateUI(with model: Model) {
+    @IBAction func doEdit(sender: UIBarButtonItem) {
+        rx_repository.updated.value = { repository in
+            repository.name = "luojie"
+            repository.language = "luojie"
+            repository.description = "luojie"
+            repository.url = "luojie"
+        }
+    }
+    
+    func updateUI(with model: Repository) {
         nameLabel.text        = model.name
         languageLabel.text    = model.language
         descriptionLabel.text = model.description
         urlLabel.text         = model.url
     }
 }
+
+//extension RepositoryTableViewController: RxModelViewControllerType {
+//    
+//    typealias Model = Repository
+//    
+//    var rx_model: Observable<Model> {
+//        return Github.getRepository(user: user, name: name)
+//    }
+//    
+//    func updateUI(with model: Model) {
+//        nameLabel.text        = model.name
+//        languageLabel.text    = model.language
+//        descriptionLabel.text = model.description
+//        urlLabel.text         = model.url
+//    }
+//}
