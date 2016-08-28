@@ -27,6 +27,7 @@ struct Scan<Element> {
         
         return Driver.of(rx_update, rx_updated)
             .merge()
+            .skip(1)
             .scan(seed) { (element, updation) -> Element in
                 switch updation {
                 case .initial:
@@ -38,7 +39,8 @@ struct Scan<Element> {
                     closure(&element)
                     return element
                 }
-        }
+            }
+
     }
     
 }

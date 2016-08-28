@@ -26,7 +26,6 @@ class RepositoryTableViewController: UITableViewController {
         super.viewDidLoad()
 //        setupRx()
         
-        
         rx_repository.asObservable()
             .doOnNext { print("4", $0) }
             .doOnError { print($0) }
