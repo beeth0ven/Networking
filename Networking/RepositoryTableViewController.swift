@@ -20,8 +20,8 @@ class RepositoryTableViewController: UITableViewController {
     @IBOutlet private weak var urlLabel: UILabel!
     
     var disposeBag = DisposeBag()
-    let rx_repository = Github.getRepository(user: "beeth0ven", name: "Timer").asScan()
-
+    let rx_repository = FlatVariable(Github.getRepository(user: "beeth0ven", name: "Timer"))
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 //        setupRx()
@@ -34,12 +34,16 @@ class RepositoryTableViewController: UITableViewController {
     }
     
     @IBAction func doEdit(sender: UIBarButtonItem) {
-        rx_repository.updated.value = { repository in
-            repository.name = "luojie"
-            repository.language = "luojie"
-            repository.description = "luojie"
-            repository.url = "luojie"
-        }
+        rx_repository.value = Repository(
+            name: "luojie",
+            language: "luojie",
+            description: "luojie",
+            url: "luojie"
+            )
+    }
+    
+    @IBAction func refresh(sender: UIBarButtonItem) {
+        rx_repository.refresh()
     }
     
     func updateUI(with model: Repository) {

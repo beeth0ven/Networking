@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E39d" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="9Cc-PA-gjk">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--Repository-->
@@ -120,11 +121,18 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Repository" id="3s9-hO-lZ1">
-                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="EFF-5p-Z64">
-                            <connections>
-                                <action selector="doEdit:" destination="Gqk-HW-xSp" id="hcV-SF-igy"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="edit" id="EFF-5p-Z64">
+                                <connections>
+                                    <action selector="doEdit:" destination="Gqk-HW-xSp" id="hcV-SF-igy"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="refresh" id="n2k-7R-bGR">
+                                <connections>
+                                    <action selector="refresh:" destination="Gqk-HW-xSp" id="gdC-zl-4k9"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="descriptionLabel" destination="tU2-FB-mWb" id="gUd-ue-VYz"/>
